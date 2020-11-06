@@ -1,15 +1,31 @@
-## Put comments here that give an overall description of what your
-## functions do
-
-## Write a short comment describing this function
-
-makeCacheMatrix <- function(x = matrix()) {
-
+setwd('C:/Users/noghosh/Documents/Coursera-R')
+##
+## First set the input x as a matrix
+## and then set the solved value "sv" as a null
+## then change every reference to "mean" to "solve"
+makeCacheMatrix <- function(x = matrix(sample(1:100,9),3,3)) {
+  sv <- NULL
+  set <- function(y) {
+    x <<- y
+    sv <<- NULL
+  }
+  get <- function() x
+  setsolve <- function(solve) sv <<- solve
+  getsolve <- function() sv
+  list(set = set, get = get,
+       setsolve = setsolve,
+       getsolve = getsolve)
 }
-
-
-## Write a short comment describing this function
-
+##
+## Same here, changed "mean" to "solve" and "m" to "s"
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+  sv <- x$getsolve()
+  if(!is.null(sv)) {
+    message("getting inversed matrix")
+    return(sv)
+  }
+  data <- x$get()
+  sv <- solve(data, ...)
+  x$setsolve(sv)
+  sv
 }
